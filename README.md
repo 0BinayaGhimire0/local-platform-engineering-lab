@@ -27,3 +27,16 @@ local-platform-engineering-lab/
 ├── docker/
 ├── kubernetes/
 └── README.md
+
+CI Pipeline
+
+This project includes a GitHub Actions CI pipeline that runs on push and pull requests.
+
+The pipeline validates:
+
+- Python application syntax
+- Python dependencies
+- Docker image build
+- Kubernetes manifest syntax using kubectl dry-run
+
+This simulates the CI stage of a DevOps workflow before deployment to a local Kubernetes environment.
