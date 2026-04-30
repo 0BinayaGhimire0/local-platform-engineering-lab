@@ -37,6 +37,10 @@ jobs:
           cd app
           pytest
 
+      - name: Format check (Black)
+        run: |
+            black --check app
+
       - name: Run lint checks
         run: |
           flake8 app
