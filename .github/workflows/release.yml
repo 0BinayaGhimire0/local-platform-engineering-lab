@@ -1,0 +1,39 @@
+name: Release Pipeline
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release-build:
+    name: Build Versioned Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from Git tag
+        id: version
+        run: |
+          echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: Build Docker image with version tag
+        run: |
+          docker build -t platform-lab-app:${VERSION} -f docker/Dockerfile .
+
+      - name: Build Docker image with latest tag
+        run: |
+          docker build -t platform-lab-app:latest -f docker/Dockerfile .
+
+      - name: Simulate deployment
+        run: |
+          echo "Simulating deployment for platform-lab-app:${VERSION}"
+          echo "In a real environment, this image would be pushed to a registry and deployed to Kubernetes."
+
+      - name: Deployment summary
+        run: |
+          echo "Release version: ${VERSION}"
+          echo "Docker image: platform-lab-app:${VERSION}"
+          echo "Deployment target: Local Kubernetes environment"
