@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-build:
+    name: Validate and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r app/requirements.txt
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile app/app.py
+
+      - name: Build Docker image
+        run: |
+          docker build -t platform-lab-app:ci -f docker/Dockerfile .
+
+      - name: Validate Kubernetes manifests
+        run: |
+          kubectl apply --dry-run=client -f kubernetes/deployment.yaml
+          kubectl apply --dry-run=client -f kubernetes/service.yaml
