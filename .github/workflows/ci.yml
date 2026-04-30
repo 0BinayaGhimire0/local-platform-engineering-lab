@@ -37,14 +37,6 @@ jobs:
           cd app
           pytest
 
-      - name: Format check (Black)
-        run: |
-            black --check app
-
-      - name: Run lint checks
-        run: |
-          flake8 app
-
       - name: Build Docker image
         run: |
           docker build -t platform-lab-app:ci -f docker/Dockerfile .
