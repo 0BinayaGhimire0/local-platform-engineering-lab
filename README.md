@@ -1,4 +1,6 @@
 # 🚀 Local Platform Engineering Lab
+![CI](https://github.com/0BinayaGhimire0/local-platform-engineering-lab/actions/workflows/ci.yml/badge.svg)
+![Release](https://github.com/0BinayaGhimire0/local-platform-engineering-lab/actions/workflows/release.yml/badge.svg)
 
 A fully local DevOps and Platform Engineering lab that simulates a cloud-native environment **without using AWS or any cloud provider**.
 
@@ -13,6 +15,45 @@ A fully local DevOps and Platform Engineering lab that simulates a cloud-native 
 * Monitoring using Prometheus and Grafana
 
 ---
+
+## 🏗️ Architecture Overview
+
+```text
+            ┌──────────────────────┐
+            │   GitHub Repository  │
+            │  (Code + Workflows)  │
+            └──────────┬───────────┘
+                       │
+                       ▼
+            ┌──────────────────────┐
+            │  GitHub Actions CI   │
+            │ (Build, Test, Lint)  │
+            └──────────┬───────────┘
+                       │
+                       ▼
+            ┌──────────────────────┐
+            │   Docker Image       │
+            │ (platform-lab-app)   │
+            └──────────┬───────────┘
+                       │
+                       ▼
+            ┌──────────────────────┐
+            │   Kind Kubernetes    │
+            │  (Local Cluster)     │
+            └──────────┬───────────┘
+                       │
+                       ▼
+            ┌──────────────────────┐
+            │   Flask Application  │
+            └──────────┬───────────┘
+                       │
+                       ▼
+            ┌──────────────────────┐
+            │ Prometheus + Grafana │
+            │   (Monitoring)       │
+            └──────────────────────┘
+```
+
 
 ## 🧰 Tech Stack
 
@@ -183,7 +224,7 @@ http://localhost:3000
 Login:
 
 ```
-admin / prom-operator
+admin / <for password see the description during installation>
 ```
 
 ---
