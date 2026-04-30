@@ -22,6 +22,15 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Run tests
+        run: |
+          cd app
+          pytest
+
+      - name: Run lint checks
+        run: |
+          flake8 app
+
       - name: Install Python dependencies
         run: |
           pip install -r app/requirements.txt
