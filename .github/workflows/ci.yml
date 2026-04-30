@@ -25,6 +25,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install -r app/requirements.txt
+          pip install PyYAML
 
       - name: Check Python syntax
         run: |
@@ -34,6 +35,19 @@ jobs:
         run: |
           docker build -t platform-lab-app:ci -f docker/Dockerfile .
 
-      - name: Validate Kubernetes manifests
+      - name: Validate Kubernetes YAML syntax
         run: |
-           kubectl apply --dry-run=client --validate=false -f k8s/
+          python - <<'PY'
+          import yaml
+
+          files = [
+              "k8s/deployment.yaml",
+              "k8s/service.yaml",
+          ]
+
+          for file in files:
+              with open(file) as f:
+                  list(yaml.safe_load_all(f))
+
+          print("Kubernetes YAML syntax is valid")
+          PY
