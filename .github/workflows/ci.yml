@@ -22,6 +22,16 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install Python dependencies
+        run: |
+          pip install -r app/requirements.txt
+          python -m pip install --upgrade pip
+          pip install PyYAML
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile app/app.py
+
       - name: Run tests
         run: |
           cd app
@@ -30,15 +40,6 @@ jobs:
       - name: Run lint checks
         run: |
           flake8 app
-
-      - name: Install Python dependencies
-        run: |
-          pip install -r app/requirements.txt
-          pip install PyYAML
-
-      - name: Check Python syntax
-        run: |
-          python -m py_compile app/app.py
 
       - name: Build Docker image
         run: |
