@@ -15,4 +15,4 @@ def test_health_route():
 
     assert response.status_code == 200
     assert response.json["status"] == "healthy"
-    
+
