@@ -1,59 +1,22 @@
 # 🚀 Local Platform Engineering Lab
+
 ![CI](https://github.com/0BinayaGhimire0/local-platform-engineering-lab/actions/workflows/ci.yml/badge.svg)
 ![Release](https://github.com/0BinayaGhimire0/local-platform-engineering-lab/actions/workflows/release.yml/badge.svg)
 
-A fully local DevOps and Platform Engineering lab that simulates a cloud-native environment **without using AWS or any cloud provider**.
+A fully local **Platform Engineering & DevOps lab** that simulates a cloud-native environment without AWS or any cloud provider.
 
 ---
 
-## 🧠 What This Project Shows
+## 🧠 What This Project Demonstrates
 
-* Containerisation using Docker
-* Local Kubernetes cluster using Kind
-* CI pipeline using GitHub Actions
+* Containerized application deployment (Docker)
+* Local Kubernetes cluster (Kind)
+* CI/CD pipelines (GitHub Actions)
 * Versioned Docker builds (release pipeline)
-* Monitoring using Prometheus and Grafana
+* Observability using Prometheus & Grafana
+* Platform engineering concepts applied locally
 
 ---
-
-## 🏗️ Architecture Overview
-
-```text
-            ┌──────────────────────┐
-            │   GitHub Repository  │
-            │  (Code + Workflows)  │
-            └──────────┬───────────┘
-                       │
-                       ▼
-            ┌──────────────────────┐
-            │  GitHub Actions CI   │
-            │ (Build, Test, Lint)  │
-            └──────────┬───────────┘
-                       │
-                       ▼
-            ┌──────────────────────┐
-            │   Docker Image       │
-            │ (platform-lab-app)   │
-            └──────────┬───────────┘
-                       │
-                       ▼
-            ┌──────────────────────┐
-            │   Kind Kubernetes    │
-            │  (Local Cluster)     │
-            └──────────┬───────────┘
-                       │
-                       ▼
-            ┌──────────────────────┐
-            │   Flask Application  │
-            └──────────┬───────────┘
-                       │
-                       ▼
-            ┌──────────────────────┐
-            │ Prometheus + Grafana │
-            │   (Monitoring)       │
-            └──────────────────────┘
-```
-
 
 ## 🧰 Tech Stack
 
@@ -66,22 +29,17 @@ A fully local DevOps and Platform Engineering lab that simulates a cloud-native 
 
 ---
 
-## 📁 Project Structure
+## 🏗️ Architecture Overview
 
-```
-local-platform-engineering-lab/
-├── app/
-├── docker/
-├── kubernetes/
-├── .github/workflows/
-└── README.md
+```text
+GitHub → CI Pipeline → Docker Image → Kubernetes (Kind) → Application → Monitoring
 ```
 
 ---
 
 ## ⚙️ Prerequisites
 
-Install the following:
+Install:
 
 * Docker
 * kubectl
@@ -91,21 +49,16 @@ Install the following:
 
 ---
 
-# 🧪 Phase 1: Run with Docker
+# 🚀 Quick Start (Recommended)
 
-### Build image
+Run the platform locally:
 
 ```bash
 docker build -t platform-lab-app:local -f docker/Dockerfile .
-```
-
-### Run container
-
-```bash
 docker run -p 5000:5000 platform-lab-app:local
 ```
 
-### Test
+Test:
 
 ```bash
 curl http://localhost:5000
@@ -113,35 +66,43 @@ curl http://localhost:5000
 
 ---
 
-# ☸️ Phase 2: Run on Kubernetes (Local)
+# ☸️ Run on Kubernetes
 
-### Create cluster
+### 1. Create cluster
 
 ```bash
 kind create cluster --name platform-lab --config kubernetes/kind-cluster.yaml
 ```
 
-### Load image
+---
+
+### 2. Load image
 
 ```bash
 kind load docker-image platform-lab-app:local --name platform-lab
 ```
 
-### Deploy
+---
+
+### 3. Deploy application
 
 ```bash
 kubectl apply -f kubernetes/deployment.yaml
 kubectl apply -f kubernetes/service.yaml
 ```
 
-### Check
+---
+
+### 4. Verify
 
 ```bash
 kubectl get pods
 kubectl get svc
 ```
 
-### Access app
+---
+
+### 5. Access application
 
 ```bash
 curl http://localhost:8080
@@ -149,18 +110,18 @@ curl http://localhost:8080
 
 ---
 
-# 🔁 Phase 3: CI Pipeline
+# 🔁 CI Pipeline
 
-GitHub Actions pipeline runs on push.
+GitHub Actions pipeline runs on every push.
 
-It checks:
+It validates:
 
-* Code syntax
-* Tests
-* Docker build
-* Kubernetes YAML
+* Python syntax
+* Application build
+* Docker image build
+* Kubernetes manifests
 
-Check it in:
+View in:
 
 ```
 GitHub → Actions tab
@@ -168,28 +129,26 @@ GitHub → Actions tab
 
 ---
 
-# 📦 Phase 4: Release Pipeline
+# 📦 Release Pipeline
 
-Triggered using Git tags.
-
-### Run
+Triggered using Git tags:
 
 ```bash
 git tag v1.0.0
 git push origin v1.0.0
 ```
 
-### What happens
+This will:
 
-* Builds versioned Docker image
-* Builds latest image
-* Simulates deployment
+* Build versioned Docker image
+* Tag latest image
+* Simulate deployment workflow
 
 ---
 
-# 📊 Phase 5: Monitoring
+# 📊 Monitoring (Prometheus + Grafana)
 
-### Install stack
+### Install monitoring stack
 
 ```bash
 kubectl create namespace monitoring
@@ -200,6 +159,8 @@ helm repo update
 helm install monitoring prometheus-community/kube-prometheus-stack \
   --namespace monitoring
 ```
+
+---
 
 ### Check pods
 
@@ -215,7 +176,7 @@ kubectl get pods -n monitoring
 kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80
 ```
 
-Open in browser:
+Open:
 
 ```
 http://localhost:3000
@@ -225,6 +186,7 @@ Login:
 
 ```
 admin / <for password see the description during installation>
+
 ```
 
 ---
@@ -252,18 +214,17 @@ kind delete cluster --name platform-lab
 
 ---
 
-# 🎯 Summary
+# 🎯 Key Takeaways
 
-This project demonstrates a full DevOps workflow locally:
+This project demonstrates:
 
-* Build → Container → Deploy → Monitor
-* CI/CD without cloud
-* Kubernetes-based platform simulation
+* How platform engineering works locally
+* How CI/CD pipelines integrate with infrastructure
+* How Kubernetes-based systems are deployed
+* How observability is integrated into platforms
 
 ---
 
 # 👤 Author
 
-Binaya Ghimire
-GitHub: https://github.com/0BinayaGhimire0
-LinkedIn: https://linkedin.com/in/binaya-ghimire
+**Binaya Ghimire**
