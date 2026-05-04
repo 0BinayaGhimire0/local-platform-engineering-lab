@@ -53,13 +53,9 @@ local-platform-engineering-lab/
 │   ├── service.yaml
 │   ├── kind-cluster.yaml
 │
-├── monitoring/
-│
 ├── .github/workflows/
 │   ├── ci.yml
 │   ├── release.yml
-│
-├── screenshots/
 │
 └── README.md
 ```
